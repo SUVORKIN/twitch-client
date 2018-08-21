@@ -12,34 +12,34 @@ export default new Vuex.Store({
     error: false
   },
   mutations: {
-    set (state, {type, items}) {
-      state[type] = items
+    set (state, {type, item}) {
+      state[type] = item
     }
   },
   actions: {
     getTopGames ({commit}) {
-      this.state.loading = true
+      commit('set', {type: 'loading', item: true})
       const url = 'https://api.twitch.tv/kraken/games/top?client_id=hx1afwpum43ryzd11oq6r0dh8msk38'
       jsonp(url, (error, response) => {
         if (error) {
           throw error
         }
         const topGames = response
-        commit('set', {type: 'topGames', items: topGames})
-        this.state.loading = false
+        commit('set', {type: 'topGames', item: topGames})
+        commit('set', {type: 'loading', item: false})
       })
     },
     getStreams ({commit}, game) {
-      this.state.loading = true
+      commit('set', {type: 'loading', item: true})
       const url = 'https://api.twitch.tv/kraken/streams/?client_id=hx1afwpum43ryzd11oq6r0dh8msk38&game=' + game
       jsonp(url, (error, response) => {
         if (error) {
           throw error
         }
         const streams = response
-        commit('set', {type: 'streams', items: streams})
-        this.state.loading = false
-        this.state.error = false
+        commit('set', {type: 'streams', item: streams})
+        commit('set', {type: 'loading', item: false})
+        commit('set', {type: 'error', item: false})
       })
     }
   }
