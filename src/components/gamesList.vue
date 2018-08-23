@@ -1,22 +1,22 @@
 <template>
-<div class="games-list">
-  <div class="load-spinner" v-if="$store.state.loading">
-    <atom-spinner
-    :animation-duration="1000"
-    :size="60"
-    :color="'rgb(100, 69, 155)'"
-     />
+  <div class="games-list">
+    <div class="load-spinner" v-if="$store.state.loading">
+      <atom-spinner
+      :animation-duration="1000"
+      :size="60"
+      :color="'rgb(100, 69, 155)'"
+      />
+    </div>
+    <router-link
+      v-if="!$store.state.loading"
+      :to="item.game.name"
+      class="games-list__item" v-for="item in data" :key="item._id">
+      <div class="games-list__viewers">
+        {{item.viewers}} viewers
+      </div>
+      <img :src="item.game.box.large" alt="">
+    </router-link>
   </div>
-  <router-link
-    v-if="!$store.state.loading"
-    :to="item.game.name"
-    class="games-list__item" v-for="item in data" :key="item._id">
-  <div class="games-list__viewers">
-    {{item.viewers}} viewers
-  </div>
-  <img :src="item.game.box.large" alt="">
-  </router-link>
-</div>
 </template>
 
 <script>

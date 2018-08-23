@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     topGames: null,
     streams: null,
+    isStream: true,
     loading: false,
     error: false
   },
@@ -40,6 +41,22 @@ export default new Vuex.Store({
         commit('set', {type: 'streams', item: streams})
         commit('set', {type: 'loading', item: false})
         commit('set', {type: 'error', item: false})
+      })
+    },
+    getStream ({commit}, channel) {
+      commit('set', {type: 'loading', item: true})
+      const url = 'https://api.twitch.tv/kraken/streams/?client_id=hx1afwpum43ryzd11oq6r0dh8msk38&channel=' + channel
+      jsonp(url, (error, response) => {
+        if (error) {
+          throw error
+        }
+        if (response.streams.length) {
+          commit('set', {type: 'isStream', item: true})
+          commit('set', {type: 'loading', item: false})
+        } else {
+          commit('set', {type: 'isStream', item: false})
+          commit('set', {type: 'loading', item: false})
+        }
       })
     }
   }

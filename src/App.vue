@@ -40,7 +40,8 @@ a {
   margin: 50px 0;
 }
 .error {
-  margin: 30px;
+  margin: 30px auto;
+  text-align: center;
   font-size: 20px;
   font-weight: bold;
 }

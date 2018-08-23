@@ -7,8 +7,8 @@
     :color="'rgb(100, 69, 155)'"
      />
   </div>
-  <div v-if="data.streams.length > 0 && !$store.state.loading">
-    <h1>{{data.streams[0].game}}</h1>
+  <div v-if="totalStreams > 0 && !$store.state.loading">
+    <!-- <h1>{{data.streams[0].game}}</h1> -->
     <div class="game__streams">
       <router-link :to="stream.game + '/' + stream.channel.name"
         class="game__stream-link"
@@ -46,10 +46,20 @@ export default {
       if (this.$store.state.streams) {
         return this.$store.state.streams
       }
+    },
+    totalStreams () {
+      if (this.$store.state.streams) {
+        return this.$store.state.streams._total
+      } 
     }
   },
-  beforeCreate () {
+  created () {
     this.$store.dispatch('getStreams', this.$route.params.name)
+  },
+  watch: {
+    $route () {
+      this.$store.dispatch('getStreams', this.$route.params.name)
+    }
   },
   components: {
     AtomSpinner
@@ -59,7 +69,7 @@ export default {
 
 <style scoped>
 .game {
-  padding: 0 10px;
+  padding: 40px 10px;
   text-align: center;
 }
 .game__streams {
